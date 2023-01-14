@@ -39,4 +39,14 @@ public class HomeController {
     public String lophoc(){
         return "/admin/lophoc";
     }
+    @RequestMapping("/ct-lop")
+    public String ctlop(){
+        return "/admin/hoc-sinh-chi-tiet-lop-hoc";
+    }
+
+    @RequestMapping("/ct-khoa")
+    public String ctkhoa(){
+        return "/admin/hoc-sinh-chi-tiet-khoa-hoc";
+    }
+
 }
