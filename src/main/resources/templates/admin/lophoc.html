@@ -177,9 +177,21 @@
             <label for="age2">Chưa tư vấn</label><br>
             <input type="radio" id="age3" name="age" value="100">
             <label for="age3">Lịch hẹn</label><br><br></div>
-        <input type="text">
-
         <div style="width: 300px; height: 40px; text-align: center; background-color: lightgreen"> <a href="cl">thêm học sinh vào lớp</a></div>
+
+        <div class="title">Ngày học</div>
+        <div style="display: flex">
+            <input type="date" id="date" style="width: 100px">
+            <button ng-click="addDate()">add</button>
+        </div>
+
+        <ul>
+            <li ng-repeat="item in newdate | orderBy">{{item}} <button ng-click="deletadate(item)">Xóa</button></li>
+        </ul>
+
+
+
+
     </div>
 </div>
 <hr>
@@ -381,31 +393,39 @@
 
             var item = angular.copy($scope.form);
             item.makh = document.getElementById("khoahoc").value;
+            item.date = $scope.newdate.toString();
             console.log("e",item)
 
-            $http.post("http://localhost:8080/rest/lophoc",item).then(resp=>{
+            $http.post("http://localhost:8080/rest/lophoc/one",item).then(resp=>{
 
                 resp.createDate = new Date(resp.data.createDate)
                 $scope.items.push(resp.data);
                 alert("them thanh cong")
                 console.log(resp.data)
 
-
             });
 
+        }
+        $scope.newdate = [];
+        $scope.addDate = function (){
+            var date = document.getElementById("date").value;
+            $scope.newdate.push(date);
+        }
+
+        $scope.deletadate = function (date){
+            $scope.newdate.splice($scope.newdate.indexOf(date),  1);
         }
 
         $scope.update=function(){
             alert("updata")
             var item = angular.copy($scope.form);
+            item.date = $scope.newdate.toString();
             $http.put(`http://localhost:8080/rest/lọphoc/${item.id}`,item).then(resp=>{
                 var index=$scope.items.findIndex(p=>p.id==item.id);
                 $scope.items[index]=item;
                 $scope.items.push(resp.data);
                 alert("updata thanh cong")
                 console.log(resp.data)
-
-
             });
 
         }
