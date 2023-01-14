@@ -122,7 +122,7 @@
             })
     });
     app.controller("product-ctrl",function($scope,$http){
-        alert("Quản lý lớp học")
+
         $scope.items=[];
         $scope.lops=[];
         $scope.hocsinhs=[];
@@ -176,7 +176,7 @@
         }
 
         $scope.delete=function(item){
-            alert("Delete")
+
             $http.delete(`http://localhost:8080/rest/hs/${item.id}`).then(resp=>{
                 var index=$scope.items.findIndex(p=>p.id==item.id);
                 $scope.items.splice(index,1);
@@ -186,7 +186,7 @@
         }
 
         $scope.create=function(){
-            alert("create")
+
             var item = angular.copy($scope.form);
             $http.post("http://localhost:8080/rest/lop",item).then(resp=>{
 

@@ -315,7 +315,7 @@
     });
 
     app.controller("product-ctrl",function($scope,$http){
-        alert("Quản lý lớp học")
+
         $scope.items=[];
         $scope.form={};
         $scope.cates=[];
@@ -367,7 +367,7 @@
         }
 
         $scope.create=function(){
-            alert("create")
+
             var item = angular.copy($scope.form);
             $http.post("http://localhost:8080/rest/lophoc",item).then(resp=>{
 
