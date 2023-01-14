@@ -1,0 +1,18 @@
+<h1>table</h1>
+<table>
+    <tr ng-repeat="item in items">
+<td>{{item.id|number}}</td>
+<td>{{item.name}}</td>
+<td>{{item.price|number:2}}</td>
+<td>{{item.createDate|date:'dd-MM-yyyy'}}</td>
+<td>{{item.name}}</td>
+<td>{{item.available?'yes':'no'}}</td>
+<td>
+    <button ng-click="edit(item)"><a href=""></a>edit</button>
+    <button  ng-click="delete(item)">xoa</button>
+   
+</td>
+    </tr>
+   
+
+</table>

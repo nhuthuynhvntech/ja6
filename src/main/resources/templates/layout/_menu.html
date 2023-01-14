@@ -1,0 +1,16 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">java6 asm</a>
+      </div>
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a th:href="@{/product/list}">Home</a></li>
+        <li><a th:href="@{/security/login/from}">Log in</a></li>
+        <li><a th:href="@{/security/logoff}">Log off</a></li>
+        <li><a th:href="@{/order/li}">Your order</a></li>
+        <li><a href="http://127.0.0.1:5500/ja6/src/main/resources/templates/admin/index.html">admin</a></li>   
+        <li th:if="${#request.remoteUser}"><h5>hello:[[${#request.remoteUser}]]</h5></li>     
+      </ul>
+    </div>
+  </nav>

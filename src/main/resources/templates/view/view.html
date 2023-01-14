@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{/layout/index::dynamic(~{::main})}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+      <h1>cart info</h1>
+      <table>
+        <tr>
+            <th>ma</th>
+            <th>ten</th>
+            <th>don gia</th>
+            <th>so luong</th>
+        </tr>
+        <tr ng-repeat="item in cart.items">
+            <td>{{item.id}}</td>
+
+        </tr>
+      </table>
+    </main>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<h1>form</h1>
+<img style="width: 200px;height: 200px;" ng-src="../../static/images/{{form.image}}" alt=""><hr>
+name 
+<input ng-model="form.name" type="text" name="" id=""><hr>
+id 
+<input ng-model="form.id" type="text" name="" id=""><hr>
+type 
+<select ng-model="form.category.id" name="" id=""><hr>
+    <option ng-repeat="c in cates" ng-value="c.id">{{c.name}}</option>
+</select><hr>
+available 
+<input ng-model="form.available" ng-value="true" name="available" type="radio">
+<input ng-model="form.available" ng-value="false" name="available" type="radio">
+
+
+<input type="file" onchange="angular.element(this).scope().imagechange(this.files)">
+
+<hr>
+<button ng-click="create()">create</button>
+<button ng-click="update()">update</button>
+<button ng-click="delete(from)">delete</button>
+<button ng-click="reset()">reset</button>

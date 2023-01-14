@@ -1,0 +1,33 @@
+
+<!DOCTYPE html>
+<html lang="en" th:replace="~{/layout/index::dynamic(~{::main})}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main th:object="${order}">
+       <h1>order details</h1>
+       <table>
+        <tr>
+            <th>ma</th>
+            <th>ten</th>
+            <th>don gia</th>
+            <th>so luong</th>
+            <th>thanh tien</th>
+        </tr>
+        <tr th:each="detail:*{orderDetails}" th:object="${detail}">
+            <img style="width: 30px;height: 30px;" class="hinh" src="../../static/images/1001.jpg" alt="">
+            <td>[[*{product.id}]]</td>
+            <td>[[*{product.name}]]</td>
+
+           
+            
+        </tr>
+       
+      </table>
+    </main>
+</body>
+</html>

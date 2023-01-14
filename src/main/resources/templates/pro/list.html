@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{/layout/index::dynamic(~{::main})}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+        <div th:each="p:${items}" class="col-sm-4">
+            <div class="panel panel-primary">
+                
+                <div class="panel-heading" th:text="${p.name}"></div>
+                <img style="width: 200px;height: 100px;" class="hinh" th:src="@{|/images/${p.image}|}" alt="">
+                <div class="panel-body">$[[${p.price}]]</div>
+                <a th:href="@{|/product/detai/${p.id}|}">chi tiet</a>
+                <button th:attr="ng-click=@{|cart.add(${p.id})|}">mua</button>
+            </div>
+
+        </div>
+    </main>
+</body>
+</html>

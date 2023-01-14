@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{/layout/index::dynamic(~{::main})}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+<div th:replace="~{/cart/view::shopping_cart}"></div>
+
+
+
+        <h1>mua san pham</h1>
+        <div class="form-control" id="username">[[${#request.remoteUser}]]</div>
+        <textarea ng-model="order.address" class="form-control"> </textarea>
+      
+        <div>{{order.createDate|date:'dd-MM-yyyy'}}</div>
+        <button ng-click="order.mua()">mua</button>
+    </main>
+</body>
+</html>

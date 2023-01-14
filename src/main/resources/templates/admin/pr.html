@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" th:fragment="dynamic(main)">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+    <title>java6 admin</title>
+    <style>
+      li{
+        color: black;
+        width: 200px;
+        height: 20px;
+        background-color: rgb(213, 180, 243);
+        border: 1px solid rgb(65, 31, 99);
+      }
+    </style>
+</head>
+<body class="container" ng-app="adapp">
+    <ul style="display: flex;">
+        <li><a href="/product/list">home</a></li>
+        <li><a href="#!product">product</a></li>
+        <li><a href="/product">product</a></li>
+        <li><a href="/order/li">list order</a></li>
+        <li><a href="/">home</a></li>
+    </ul>
+    <div ng-view></div>
+<header class="row"></header>
+<h1>form</h1>
+<img style="width: 200px;height: 200px;" ng-src="{'../../static/images/'+ form.image}" alt="">
+<input ng-model="form.name" type="text" name="" id="">
+<input ng-model="form.id" type="text" name="" id="">
+<select ng-model="form.category.id" name="" id="">
+    <option ng-repeat="c in cates" ng-value="c.id">{{c.name}}</option>
+</select>
+<input ng-model="form.available" ng-value="true" name="available" type="radio">
+<input ng-model="form.available" ng-value="false" name="available" type="radio">
+
+<input type="file" onchange="angular.element(this).scope().imagechange(this.files)">
+<button ng-click="create()">create</button>
+<button ng-click="update()">update</button>
+<button ng-click="delete(from)">delete</button>
+<button ng-click="reset()">reset</button>
+
+<h1>table</h1>
+<table>
+    <tr ng-repeat="item in items">
+<td>{{item.id|number}}</td>
+<td>{{item.name}}</td>
+<td>{{item.price|number:2}}</td>
+<td>{{item.createDate|date:'dd-MM-yyyy'}}</td>
+<td>{{item.name}}</td>
+<td>{{item.available?'yes':'no'}}</td>
+<td>
+    <button ng-click="edit(item)"><a href=""></a>edit</button>
+    <button  ng-click="delete(item)">xoa</button>
+   
+</td>
+    </tr>
+   
+
+</table>
+<script language="javascript">
+var app = angular.module("adapp", ["ngRoute"]);
+app.config(function($routeProvider) {
+  $routeProvider
+  .when("/product", {
+    templateUrl : "_product.html",
+    controller:"product-ctrl"
+  })
+  .when("/au", {
+    templateUrl : "/admin/au/index.html",
+    controller:"auhtority-ctrl"
+  })
+  .when("/unau", {
+    templateUrl : "/admin/au/unau.html",
+    controller:"authority-ctrl"
+  })
+  .otherwise({
+    template:"<h1>web ban hang java6</h1>"
+  })
+});
+ 
+app.controller("product-ctrl",function($scope,$http){
+    alert("quan ly hang hoa")
+    $scope.items=[];
+    $scope.form={};
+    $scope.cates=[];
+    $scope.initialize=function(){
+      $http.get("http://localhost:8080/rest/products").then(resp=>{
+        $scope.items=resp.data;
+        $scope.items.forEach(item=>{
+       
+          item.createDate = new Date(item.createDate)
+          console.log(item)
+        })
+      });
+      $http.get("http://localhost:8080/rest/cates").then(resp=>{
+        $scope.cates=resp.data;
+       
+        
+      });
+
+
+
+
+
+    }
+    $scope.initialize();
+
+    $scope.reset=function(){
+      $scope.form={
+        createDate:new Date()
+      }
+
+
+    }
+
+    $scope.edit=function(item){
+      $scope.form=angular.copy(item);
+
+
+
+    }
+
+    $scope.delete=function(item){
+    
+      $http.delete(`http://localhost:8080/rest/products/${item.id}`).then(resp=>{
+        var index=$scope.items.findIndex(p=>p.id==item.id);
+        $scope.items.splice(index,1);
+        alert("xoa thanh cong")
+        console.log(resp.data)
+       
+        
+      });
+
+}
+
+    $scope.create=function(){
+      alert("create")
+      var item = angular.copy($scope.form);
+      $http.post("http://localhost:8080/rest/products",item).then(resp=>{
+
+        resp.createDate = new Date(resp.data.createDate)
+        $scope.items.push(resp.data);
+        alert("them thanh cong")
+        console.log(resp.data)
+       
+        
+      });
+
+}
+
+$scope.update=function(){
+  alert("updata")
+      var item = angular.copy($scope.form);
+      $http.put(`http://localhost:8080/rest/products/${item.id}`,item).then(resp=>{
+        var index=$scope.items.findIndex(p=>p.id==item.id);
+        $scope.items[index]=item;
+        $scope.items.push(resp.data);
+        alert("updata thanh cong")
+        console.log(resp.data)
+       
+        
+      });
+
+}
+
+$scope.imagechange=function(files){
+  var data = new FormData();
+  data.append('file',files[0])
+  $http.post(`http://localhost:8080/rest/up/images`,data,{
+    transformRequest: angular.identity,
+    headers:{'Content-Type':undefined}
+  }).then(resp=>{
+    $scope.form.image = resp.data.name;
+
+  }).catch(error=>{
+    alert("up hinh loi")
+    console.log("loi la",error)
+  })
+
+}
+
+
+})
+</script>
+
+
+</body>
+</html>

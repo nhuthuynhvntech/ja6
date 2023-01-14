@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+    <title>Document</title>
+</head>
+<body class="container" ng-app="adapp" ng-controller="product-ctrl" >
+<h1>Chọn lớp</h1>
+<p>chọn lớp:</p>
+
+<select ng-model="form.maLop">
+    <option ng-repeat="c in lops" value="{{c.malop}}">{{c.malop}}</option>
+</select>
+
+<h1>lớp là: {{form.maLop}}</h1>
+
+<p>chọn học viên:</p>
+
+<select ng-model="form.maHocSinh">
+    <option ng-repeat="y in hocsinhs" value="{{y.maHocSinh}}">{{y.maHocSinh}}</option>
+</select>
+
+<h1>Học viên là: {{form.maHocSinh}}</h1>
+
+
+
+
+
+
+
+
+<input ng-model="form.available" ng-value="true" name="available" type="radio">
+<input ng-model="form.available" ng-value="false" name="available" type="radio">
+
+
+<input type="file" onchange="angular.element(this).scope().imagechange(this.files)">
+
+<hr>
+<button ng-click="create()">create</button>
+<button ng-click="update()">update</button>
+<button ng-click="delete(from)">delete</button>
+<button ng-click="reset()">reset</button>
+
+
+<h1>Danh sách khóa học</h1>
+<table>
+    <tr>
+
+        <th>Company</th>
+        <th>Contact</th>
+        <th>Country</th>
+        <th>Company</th>
+        <th>Contact</th>
+        <th>Country</th>
+        <th>Country</th>
+
+
+
+    </tr>
+    <tr ng-repeat="item in items">
+        <td>{{item.id|number}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.price|number:2}}</td>
+        <td>{{item.createDate|date:'dd-MM-yyyy'}}</td>
+        <td>{{item.ma_Hoc_Sinh}}</td>
+        <td>{{item.available?'yes':'no'}}</td>
+        <td>
+            <button ng-click="edit(item)"><a href=""></a>edit</button>
+            <button  ng-click="delete(item)">xoa</button>
+
+        </td>
+    </tr>
+
+
+</table>
+
+<script>
+    var app = angular.module("adapp", ["ngRoute"]);
+    app.config(function($routeProvider) {
+        $routeProvider
+            .when("/product", {
+                templateUrl : "_product.html",
+                controller:"product-ctrl"
+            })
+            .when("/au", {
+                templateUrl : "/admin/au/index.html",
+                controller:"auhtority-ctrl"
+            })
+            .when("/unau", {
+                templateUrl : "/admin/au/unau.html",
+                controller:"authority-ctrl"
+            })
+            .otherwise({
+                template:"<h1>web ban hang java6</h1>"
+            })
+    });
+
+
+</script>
+<script language="javascript">
+    var app = angular.module("adapp", ["ngRoute"]);
+    app.config(function($routeProvider) {
+        $routeProvider
+            .when("/product", {
+                templateUrl : "_product.html",
+                controller:"product-ctrl"
+            })
+            .when("/au", {
+                templateUrl : "/admin/au/index.html",
+                controller:"auhtority-ctrl"
+            })
+            .when("/unau", {
+                templateUrl : "/admin/au/unau.html",
+                controller:"authority-ctrl"
+            })
+            .otherwise({
+                template:"<h1>web ban hang java6</h1>"
+            })
+    });
+    app.controller("product-ctrl",function($scope,$http){
+        alert("Quản lý lớp học")
+        $scope.items=[];
+        $scope.lops=[];
+        $scope.hocsinhs=[];
+        $scope.form={};
+        $scope.cates=[];
+
+        $scope.initialize=function(){
+            $http.get("http://localhost:8080/rest/lop").then(resp=>{
+                $scope.items=resp.data;
+                $scope.items.forEach(item=>{
+
+                    item.createDate = new Date(item.createDate)
+                    console.log(item)
+                })
+            });
+            $http.get("http://localhost:8080/rest/lophoc").then(resp=>{
+                $scope.lops=resp.data;
+                console.log("lop", $scope.lops)
+
+            });
+            $http.get("http://localhost:8080/rest/hs").then(resp=>{
+                $scope.hocsinhs=resp.data;
+
+            });
+            $http.get("http://localhost:8080/rest/hs").then(resp=>{
+                $scope.cates=resp.data;
+
+
+            });
+
+
+
+
+
+        }
+        $scope.initialize();
+
+        $scope.reset=function(){
+            $scope.form={
+                createDate:new Date()
+            }
+
+
+        }
+
+        $scope.edit=function(item){
+            $scope.form=angular.copy(item);
+
+
+
+        }
+
+        $scope.delete=function(item){
+            alert("Delete")
+            $http.delete(`http://localhost:8080/rest/hs/${item.id}`).then(resp=>{
+                var index=$scope.items.findIndex(p=>p.id==item.id);
+                $scope.items.splice(index,1);
+                alert("xoa thanh cong")
+                console.log(resp.data)
+            });
+        }
+
+        $scope.create=function(){
+            alert("create")
+            var item = angular.copy($scope.form);
+            $http.post("http://localhost:8080/rest/lop",item).then(resp=>{
+
+                resp.createDate = new Date(resp.data.createDate)
+                $scope.items.push(resp.data);
+                alert("them thanh cong")
+                console.log(resp.data)
+            });
+        }
+
+        $scope.update=function(){
+            alert("updata")
+            var item = angular.copy($scope.form);
+            $http.put(`http://localhost:8080/rest/hs/${item.id}`,item).then(resp=>{
+                var index=$scope.items.findIndex(p=>p.id==item.id);
+                $scope.items[index]=item;
+                $scope.items.push(resp.data);
+                alert("updata thanh cong")
+                console.log(resp.data)
+            });
+        }
+
+        $scope.imagechange=function(files){
+            var data = new FormData();
+            data.append('file',files[0])
+            $http.post(`http://localhost:8080/rest/up/images`,data,{
+                transformRequest: angular.identity,
+                headers:{'Content-Type':undefined}
+            }).then(resp=>{
+                $scope.form.image = resp.data.name;
+
+            }).catch(error=>{
+                alert("up hinh loi")
+                console.log("loi la",error)
+            })
+
+        }
+
+
+    })
+
+
+</script>
+
+</body>
+</html>
+

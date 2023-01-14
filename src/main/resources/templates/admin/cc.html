@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular-route.js"></script>
+    <title>Document</title>
+
+    <style>
+        td,th{
+            width: 200px;
+            text-align: center;
+        }
+        th{
+            background-color: navajowhite;
+        }
+
+
+    </style>
+    <style>
+
+        .qt{
+            display: flex;
+            padding: 30px 25px;
+        }
+        .qt1{
+            box-sizing: border-box;
+            padding: 0px 15px;
+            width: 50%;
+        }
+        .qt1>input{
+            width: 80%;
+        }
+        .title{
+            color: rgb(26, 26, 26);
+            font-size: 18px;
+            margin-top: 15px;
+            margin-left: 20px;
+
+        }
+        .btn1{
+            display: flex;
+            text-align: center;
+            width: 615px;
+            margin: auto;
+        }
+        .btn1>button{
+            width: 120px;
+            height: 40px;
+            border-radius: 30px;
+            margin: 5px;
+            border: none;
+
+        }
+        .b1{
+            width: 100px;
+            height: 30px;
+            border-radius: 30px;
+            margin: 5px;
+            border: none;
+
+        }
+
+        .cr{
+           background-color: lightgreen;
+        }
+        .up{
+            background-color: coral;
+        }     .de{
+                          background-color: crimson;
+              }     .re{
+                                              background-color: navajowhite;
+                    }
+
+input{
+    color: #3d3c3c;
+}
+body{
+    padding: 0px 15px;
+}
+
+    </style>
+    <style>
+        .quantri{
+            width: 100%;
+            height: 50px;
+            text-align: center;
+            display: flex;
+
+        }
+
+        .quantri>div{
+            width: 150px;
+            height: 50px;
+            line-height: 50px;
+            color: #000;
+            margin:0px 5px;
+            background-color: rgb(221, 221, 246);
+
+
+        }
+        a{
+            text-decoration: none;
+
+        }
+    </style>
+</head>
+<body class="container" ng-app="adapp" ng-controller="product-ctrl" >
+<div>
+    <div  class="quantri">
+        <div style="color: royalblue; font-size: 20px; background-color: aliceblue"> <a href="quantri"> EH </a></div>
+        <div> <a href="cc"> Học sinh</a></div>
+        <div> <a href=""> Giáo viên</a></div>
+        <div> <a href="khoahoc"> Khóa học</a></div>
+        <div> <a href=""> Lớp học</a></div>
+        <div> <a href=""> Chương trình học</a></div>
+        <div> <a href=""> Nhân viên</a></div>
+
+
+
+    </div>
+</div>
+
+<div class="qt">
+<div class="qt1">
+    <h1>Thông tin học viên</h1>
+    <img style="width: 200px;height: 200px;" ng-src="../../static/images/{{form.image}}" alt="">
+    <div class="title">Tên Học Sinh</div>
+    <input ng-model="form.name" type="text" name="" id="">
+    <div class="title">Mã học viên</div>
+    <input ng-model="form.maHocSinh" type="text" name="" id="">
+    <div class="title">Email</div>
+    <input ng-model="form.email" type="text" name="" id="">
+    <div class="title">Số điện thoại</div>
+    <input ng-model="form.soDienThoai" type="text" name="" id="">
+
+
+
+
+</div>
+<div class="qt1">
+
+    <div class="title">Mục tiêu học tập</div>
+    <div>  <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">
+        <label for="vehicle1"> Thi IELTS</label><br>
+        <input type="checkbox" id="vehicle2" name="vehicle2" value="Car">
+        <label for="vehicle2"> Du Học</label><br>
+        <input type="checkbox" id="vehicle3" name="vehicle3" value="Boat">
+        <label for="vehicle3"> Làm Việc</label><br><br></div>
+
+    <div class="title">Các khóa đang tham gia</div>
+    <div style="display: flex">
+        <div style="width: 50%">  <input type="checkbox" id="vehicle1s" name="vehicle1" value="Bike">
+            <label for="vehicle1"> Thi IELTS</label><br>
+            <input type="checkbox" id="vehicle2s" name="vehicle2" value="Car">
+            <label for="vehicle2"> Du Học</label><br>
+            <input type="checkbox" id="vehicle3s" name="vehicle3" value="Boat">
+            <label for="vehicle3"> Làm Việc</label><br><br></div>
+        <div style="width: 50%">  <input type="checkbox" id="vehicle1s" name="vehicle1" value="Bike">
+            <label for="vehicle1"> Thi IELTS</label><br>
+            <input type="checkbox" id="vehicles2" name="vehicle2" value="Car">
+            <label for="vehicle2"> Du Học</label><br>
+            <input type="checkbox" id="vehicle3s" name="vehicle3" value="Boat">
+            <label for="vehicle3"> Làm Việc</label><br><br></div>
+    </div>
+
+    <div class="title">Tình trạng tư vấn</div>
+    <div><input type="radio" id="age1" name="age" value="30">
+        <label for="age1">Đã tư vấn</label><br>
+        <input type="radio" id="age2" name="age" value="60">
+        <label for="age2">Chưa tư vấn</label><br>
+        <input type="radio" id="age3" name="age" value="100">
+        <label for="age3">Lịch hẹn</label><br><br></div>
+    <input type="text">
+</div>
+</div>
+<hr>
+<div class="btn1"><button class="cr" ng-click="create()">create</button>
+    <button class="up" ng-click="update()">update</button>
+    <button class="de" ng-click="delete(from)">delete</button>
+    <button class="re" ng-click="reset()">reset</button>
+</div>
+
+
+<h3 style="text-align: center">Danh sách Học viên  <span style="color: royalblue">{{items.length}} học viên</span>  </h3>
+
+<style >
+    .timhs{
+        width: 500px;
+        display: flex;
+        margin: auto;
+    }
+    .timhs>input{
+        width: 400px;
+    }
+    .timhs>button{
+        width: 50px;
+        height: 30px;
+        text-align: center;
+        line-height:30px ;
+    }
+    .dskhoahoc{
+        display: flex;
+        height: 60px;
+        text-align: center;
+    }
+    .dskhoahoc>a>div{
+        width: 170px;
+        height: 35px;
+        line-height: 35px;
+        text-align:center ;
+        margin: 5px;
+        background-color: rgb(117, 243, 117);
+
+    }
+
+</style>
+<div class="timhs">
+    <div style="width: 50px;height: 30px; background-color: royalblue; margin: 0px 5px"> Tên </div>
+    <div style="width: 50px;height: 30px; background-color: royalblue; margin: 0px 5px"> Khóa </div>
+    <div style="width: 50px;height: 30px; background-color: royalblue; margin: 0px 5px"> Lớp </div>
+
+    <input type="text">
+    <button>tìm</button>
+
+</div>
+<div class="dskhoahoc">
+    <a href=""><div>TA0D-khóa cơ bản</div></a>
+    <a href=""><div>TA0D-khóa nâng cao</div></a>
+    <a href=""><div>TA0D-khóa cơ bản</div></a>
+    <a href=""><div>TA0D-khóa cơ bản</div></a>
+    <a href=""><div>TA0D-khóa cơ bản</div></a>
+</div>
+<table STYLE="margin: auto; background-color: #e5e3e3">
+    <tr style="border: #efefef 1px solid">
+
+        <th>ID</th>
+        <th>Mã học viên</th>
+        <th>Tên học viên</th>
+        <th>Contact</th>
+        <th>Ngày đăng ký</th>
+        <th style="color: blue; width: 200px">Chỉnh sửa</th>
+
+
+
+    </tr>
+    <tr ng-repeat="item in items">
+        <td>{{item.id|number}}</td>
+        <td>{{item.maHocSinh}}</td>
+        <td>{{item.name}}</td>
+        <td>{{item.createDate|date:'dd-MM-yyyy'}}</td>
+        <td>{{item.available?'yes':'no'}}</td>
+        <td style="width: 200px; display: flex">
+            <button class="b1" ng-click="edit(item)"><a href=""></a>edit</button>
+            <button class="b1"  ng-click="delete(item)">xoa</button>
+
+        </td>
+    </tr>
+
+
+</table>
+<style>
+    .u{
+        width: 260px;
+        margin: auto;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .u>a>div{
+        width: 50px;
+        height: 25px;
+        line-height:25px ;
+        text-align: center;
+
+        background-color: #8787f5;
+        margin: 5px 2px;
+
+
+
+    }</style>
+</div>
+<div class="u" style="display: flex;">
+    <a href=""><div><<</div></a>
+    <a href=""><div><</div></a>
+    <a href=""><div>1</div></a>
+    <a href=""><div>></div></a>
+    <a href=""><div>>>></div></a>
+
+</div>
+<div style="height: 100px"></div>
+<script>
+    var app = angular.module("adapp", ["ngRoute"]);
+    app.config(function($routeProvider) {
+        $routeProvider
+            .when("/product", {
+                templateUrl : "_product.html",
+                controller:"product-ctrl"
+            })
+            .when("/au", {
+                templateUrl : "/admin/au/index.html",
+                controller:"auhtority-ctrl"
+            })
+            .when("/unau", {
+                templateUrl : "/admin/au/unau.html",
+                controller:"authority-ctrl"
+            })
+            .otherwise({
+                template:"<h1>web ban hang java6</h1>"
+            })
+    });
+
+    app.controller("product-ctrl",function($scope,$http){
+        alert("Quản lý lớp học")
+        $scope.items=[];
+        $scope.form={};
+        $scope.cates=[];
+        $scope.initialize=function(){
+            $http.get("http://localhost:8080/rest/hs").then(resp=>{
+                $scope.items=resp.data;
+                $scope.items.forEach(item=>{
+
+                    item.createDate = new Date(item.createDate)
+                    console.log(item)
+                })
+            });
+            $http.get("http://localhost:8080/rest/hs").then(resp=>{
+                $scope.cates=resp.data;
+
+
+            });
+
+
+
+
+
+        }
+        $scope.initialize();
+
+        $scope.reset=function(){
+            $scope.form={
+                createDate:new Date()
+            }
+
+
+        }
+
+        $scope.edit=function(item){
+            $scope.form=angular.copy(item);
+
+
+
+        }
+
+        $scope.delete=function(item){
+            alert("Delete")
+            $http.delete(`http://localhost:8080/rest/hs/${item.id}`).then(resp=>{
+                var index=$scope.items.findIndex(p=>p.id==item.id);
+                $scope.items.splice(index,1);
+                alert("xoa thanh cong")
+                console.log(resp.data)
+            });
+        }
+
+        $scope.create=function(){
+            alert("create")
+            var item = angular.copy($scope.form);
+            $http.post("http://localhost:8080/rest/hs",item).then(resp=>{
+
+                resp.createDate = new Date(resp.data.createDate)
+                $scope.items.push(resp.data);
+                alert("them thanh cong")
+                console.log(resp.data)
+            });
+        }
+
+        $scope.update=function(){
+            alert("updata")
+            var item = angular.copy($scope.form);
+            $http.put(`http://localhost:8080/rest/hs/${item.id}`,item).then(resp=>{
+                var index=$scope.items.findIndex(p=>p.id==item.id);
+                $scope.items[index]=item;
+                $scope.items.push(resp.data);
+                alert("updata thanh cong")
+                console.log(resp.data)
+            });
+        }
+
+        $scope.imagechange=function(files){
+            var data = new FormData();
+            data.append('file',files[0])
+            $http.post(`http://localhost:8080/rest/up/images`,data,{
+                transformRequest: angular.identity,
+                headers:{'Content-Type':undefined}
+            }).then(resp=>{
+                $scope.form.image = resp.data.name;
+
+            }).catch(error=>{
+                alert("up hinh loi")
+                console.log("loi la",error)
+            })
+
+        }
+
+
+    })
+</script>
+<script language="javascript">
+    var app = angular.module("adapp", ["ngRoute"]);
+    app.config(function($routeProvider) {
+        $routeProvider
+            .when("/product", {
+                templateUrl : "_product.html",
+                controller:"product-ctrl"
+            })
+            .when("/au", {
+                templateUrl : "/admin/au/index.html",
+                controller:"auhtority-ctrl"
+            })
+            .when("/unau", {
+                templateUrl : "/admin/au/unau.html",
+                controller:"authority-ctrl"
+            })
+            .otherwise({
+                template:"<h1>web ban hang java6</h1>"
+            })
+    });
+
+    app.controller("product-ctrl",function($scope,$http){
+        alert("Quản lý Học Viên")
+        $scope.items=[];
+        $scope.form={};
+        $scope.cates=[];
+        $scope.initialize=function(){
+            $http.get("http://localhost:8080/rest/hs").then(resp=>{
+                $scope.items=resp.data;
+                $scope.items.forEach(item=>{
+
+                    item.createDate = new Date(item.createDate)
+                    console.log(item)
+                })
+            });
+            $http.get("http://localhost:8080/rest/hs").then(resp=>{
+                $scope.cates=resp.data;
+
+
+            });
+
+
+
+
+
+        }
+        $scope.initialize();
+
+        $scope.reset=function(){
+            $scope.form={
+                createDate:new Date()
+            }
+
+
+        }
+
+        $scope.edit=function(item){
+            $scope.form=angular.copy(item);
+
+
+
+        }
+
+        $scope.delete=function(item){
+
+            $http.delete(`http://localhost:8080/rest/hs/${item.id}`).then(resp=>{
+                var index=$scope.items.findIndex(p=>p.id==item.id);
+                $scope.items.splice(index,1);
+                alert("xoa thanh cong")
+                console.log(resp.data)
+
+
+            });
+
+        }
+
+        $scope.create=function(){
+            alert("create")
+            var item = angular.copy($scope.form);
+            $http.post("http://localhost:8080/rest/hs",item).then(resp=>{
+
+                resp.createDate = new Date(resp.data.createDate)
+                $scope.items.push(resp.data);
+                alert("them thanh cong")
+                console.log(resp.data)
+
+
+            });
+
+        }
+
+        $scope.update=function(){
+            alert("updata")
+            var item = angular.copy($scope.form);
+            $http.put(`http://localhost:8080/rest/hs/${item.id}`,item).then(resp=>{
+                var index=$scope.items.findIndex(p=>p.id==item.id);
+                $scope.items[index]=item;
+                $scope.items.push(resp.data);
+                alert("updata thanh cong")
+                console.log(resp.data)
+
+
+            });
+
+        }
+
+        $scope.imagechange=function(files){
+            var data = new FormData();
+            data.append('file',files[0])
+            $http.post(`http://localhost:8080/rest/up/images`,data,{
+                transformRequest: angular.identity,
+                headers:{'Content-Type':undefined}
+            }).then(resp=>{
+                $scope.form.image = resp.data.name;
+
+            }).catch(error=>{
+                alert("up hinh loi")
+                console.log("loi la",error)
+            })
+
+        }
+
+
+    })
+</script>
+
+</body>
+</html>
+

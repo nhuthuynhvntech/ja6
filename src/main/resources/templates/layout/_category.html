@@ -1,0 +1,4 @@
+<ul class="list-group">
+   <a class="list-group-item" th:each="c:${cates}"  th:href="@{|/product/list?cid=${c.id}|}">[[${c.name}]]</a>
+
+  </ul>

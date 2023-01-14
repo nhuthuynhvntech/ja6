@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{/layout/index::dynamic(~{::main})}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <main>
+   <div th:fragment="shopping_cart">
+    <h1>cart info</h1>
+    <table>
+      <tr>
+          <th>ma</th>
+          <th>ten</th>
+          <th>don gia</th>
+          <th>so luong</th>
+          <th>thanh tien</th>
+      </tr>
+      <tr ng-repeat="item in cart.items">
+          <td>{{item.id}}</td>
+          <td>{{item.name}}</td>
+          <td>${{item.price|number:2}}</td>
+          <td><input ng-change="cart.saveToLocalStorage()" ng-model="item.qty" type="number"></td>
+          <td>${{item.qty*item.price|number:2}}</td>
+          <td><button ng-click="cart.xoa(item.id)">xoa</button></td>
+
+
+      </tr>
+      <tr >
+          <th><button ng-click="cart.xoahet()">xoa</button></th>
+          
+      </tr>
+      <tr >
+          <th><a th:href="@{/order/checkout}">mua<a></th>
+          
+      </tr>
+     
+    </table>
+   </div>
+    </main>
+</body>
+</html>
