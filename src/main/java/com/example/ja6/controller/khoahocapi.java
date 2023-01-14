@@ -15,10 +15,6 @@ import java.util.List;
 @RequestMapping("/rest/kh")
 public class khoahocapi {
 
-
-
-
-
     @Autowired
     KhoaHocDAO dao;
 

@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -18,7 +20,7 @@ public class LopHoc {
     String chiChu;
     String linkTaiLieu;
     private String name;
-
-
+    private String makh;
+    private String date;
 
 }

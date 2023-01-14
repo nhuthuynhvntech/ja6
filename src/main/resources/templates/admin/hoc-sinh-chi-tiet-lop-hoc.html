@@ -3,58 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <title>Học sinh chi tiết</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
 </head>
-<body>
-<div >
-    <div><a href="ct-lop">lop</a></div>
-    <div><a href="ct-khoa">khoa</a></div>
+<body ng-app="app" ng-controller="cvf">
 
-</div>
 <div>Danh sách lớp học</div>
-<div class="dslop">
-    <div>lop 1</div>
-    <div>lop 2</div>
+<div class="dslop" >
+    <select id="lophoc" ng-mouseout="Lophoc()">
+        <option ng-repeat="item in lophoc" value="{{item}}">{{item.name}} ({{item.malop}}) </option>
+    </select>
+
+    <select id="ngayhoc" >
+        <option ng-repeat="item in ngay" value="">{{item}} </option>
+    </select>
+
 </div>
 
 
-<div class="ngay hoc">
-    <button>ngay hoc 1</button>
-    <button>ngay hoc 2</button>
-    <button>ngay hoc 3</button>
-    <button>ngay hoc 4</button>
-    <button>ngay hoc 5</button>
-</div>
 
 
 <div>
-    <div class="hocsinhbl">
-        <div>hoc sinh 1</div>
-        <input type="text">
-        <button>save</button>
+    <table STYLE="background-color: #e5e3e3">
+        <tr style="border: #efefef 1px solid">
 
-    </div>
-    <div class="hocsinhbl">
-        <div>hoc sinh 1</div>
-        <input type="text">
-        <button>save</button>
+            <th>ID</th>
+            <th>Mã học viên</th>
+            <th>Tên học viên</th>
+            <th>Contact</th>
+            <th>Ngày đăng ký</th>
+            <th>Status</th>
+            <th>Đánh giá</th>
+            <th style="color: blue; width: 200px">Chỉnh sửa</th>
 
-    </div>
+        </tr>
+        <tr ng-repeat="item in hocsinh">
+            <td>{{item.id|number}}</td>
+            <td>{{item.maHocSinh}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.createDate|date:'dd-MM-yyyy'}}</td>
+            <td>{{item.available?'yes':'no'}}</td>
+            <td>{{item.status}}</td>
+            <td><input ng-model="item.danhgia"></td>
+            <td style="width: 200px; display: flex">
+                <button class="b1"  ng-click="save(item)">lưu</button>
+            </td>
+        </tr>
+    </table>
 
-    <div class="hocsinhbl">
-        <div>hoc sinh 1</div>
-        <input type="text">
-        <button>save</button>
-
-    </div>
-
-    <div class="hocsinhbl">
-        <div>hoc sinh 1</div>
-        <input type="text">
-        <button>save</button>
-
-    </div>
-
-   
 </div>
+<script language="javascript">
+    var app = angular.module("app", []);
+    app.controller('cvf', function($scope,$http) {
+
+        $scope.lophoc=[];
+        $scope.hocsinh=[];
+        $scope.form={};
+
+        $scope.hs = function (malh){
+
+            malh = JSON.parse("["+malh+"]");
+            console.log("t",malh);
+            $scope.ngay =[];
+            try {
+                $scope.ngay = JSON.parse("["+malh[0].date+"]");
+            }catch (e){}
+
+            $http.get("/rest/hs/hstolop/"+malh[0].malop).then(resp=>{
+                $scope.hocsinh=resp.data;
+                console.log("hs",resp);
+            });
+        }
+
+        $scope.initialize=function(){
+            $http.get("http://localhost:8080/rest/lophoc").then(resp=>{
+                $scope.lophoc=resp.data;
+                try {
+                    $scope.ngay = JSON.parse("["+$scope.lophoc[0].date+"]");
+                }catch (e){}
+                $http.get("/rest/hs/hstolop/"+$scope.lophoc[0].malop).then(resp=>{
+                    $scope.hocsinh=resp.data;
+                    console.log("hs",resp);
+                });
+            });
+
+        }
+        $scope.initialize();
+
+        $scope.save = function (item,danhgia){
+            console.log("u",item);
+        }
+
+        $scope.Lophoc = function (){
+            var ma = document.getElementById("lophoc").value;
+            $scope.hs(ma);
+        }
+
+    })
+</script>
+
+
 </body>
 </html>

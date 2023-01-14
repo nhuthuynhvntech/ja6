@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -21,33 +22,18 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableWebSecurity
 public class Security extends WebSecurityConfigurerAdapter {
-@Autowired
-    AccoutService accoutService;
-//
-//    @Bean
-//    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
-//    @Autowired
-//    private BCryptPasswordEncoder pe;
-//
-//
-//    @Autowired
-//    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.userDetailsService(username -> {
-//            try{
-//                Account user = accoutService.findById(username);
-//                String pass = pe.encode(user.getPassword());
-//                String[]roles = user.getAuthorities().stream()
-//                        .map(er->er.getRole().getId())
-//                        .collect(Collectors.toList()).toArray(new String[0]);
-//                return User.withUsername(username).password(pass).roles(roles).build();
-//
-//            }catch (NoSuchElementException e){
-//                throw new UsernameNotFoundException(username+ "sai");
-//            }
-//        });
-//    }
+    @Autowired
+    MyUserDetailsUntils userDetailsUntils;
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Autowired
+    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsUntils);
+    }
 
 //    @Override
 //    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -79,43 +65,5 @@ public class Security extends WebSecurityConfigurerAdapter {
 //        http.exceptionHandling().accessDeniedPage("/account/signin");
 //    }
 
-    @Bean
-    public BCryptPasswordEncoder getPass(){
-        return new BCryptPasswordEncoder();
-    }
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-        BCryptPasswordEncoder pc = new BCryptPasswordEncoder();
-//        auth.inMemoryAuthentication()
-//                .withUser("a").password("a").roles("admin")
-//                .and()
-//                .withUser("user2").password(pc.encode("abc")).roles("admin","user")
-//                .and()
-//                .withUser("user3").password(pc.encode("abc")).roles("user");
-                auth.userDetailsService(username -> {
-            try{
-                Account user = accoutService.findById(username);
-                String pass = pc.encode(user.getPassword());
-                String[]roles = user.getAuthorities().stream()
-                        .map(er->er.getRole().getId())
-                        .collect(Collectors.toList()).toArray(new String[0]);
-                return User.withUsername(username).password(pass).roles(roles).build();
 
-            }catch (NoSuchElementException e){
-                throw new UsernameNotFoundException(username+ "sai");
-            }
-        });
-
-    }
-        @Override
-    protected void configure(HttpSecurity http) throws Exception{
-      http.csrf().disable().cors().disable();
-      http.authorizeRequests()
-
-//                .antMatchers("/order/checkout").hasRole("CUST")
-//            	.antMatchers("/home/user").hasAnyRole("user","admin")
-//            	.antMatchers("/home/au").authenticated()
-//                .antMatchers("/rest/hs").authenticated()
-            	.anyRequest().permitAll();
-    http.httpBasic();}
 }

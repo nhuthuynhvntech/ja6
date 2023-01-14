@@ -21,6 +21,7 @@ public class hocSinh {
     String email;
     String soDienThoai;
 
+    private boolean status;
 
 
 

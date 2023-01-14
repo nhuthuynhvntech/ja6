@@ -22,7 +22,7 @@ public class hsapi {
 
 
     @Autowired
-    hsse hs;
+    HocSinhDAO hs;
     @Autowired
     HocSinhDAO dao;
 
@@ -32,7 +32,7 @@ public class hsapi {
 
     @GetMapping()
     public List<hocSinh> getAll(){
-        return hs.findALl();
+        return hs.findAll();
     }
     @GetMapping("{id}")
     public List<hocSinh> timtheoten(@PathVariable("id") String maHocSinh){
@@ -42,7 +42,7 @@ public class hsapi {
     @PostMapping()
     public hocSinh create(@RequestBody hocSinh hocSinh){
         hocSinh.setStatus(true);
-        return hs.create(hocSinh);
+        return hs.save(hocSinh);
     }
 
     @PostMapping("lophocsinh/{mahs}")
@@ -59,6 +59,12 @@ public class hsapi {
     public void delete(@RequestBody hocSinh sinhsinh){
         sinhsinh.setStatus(false);
         dao.save(sinhsinh);
+    }
+
+
+    @GetMapping("hstolop/{malh}")
+    public List<hocSinh> hstolop(@PathVariable String malh){
+        return hs.hocsinhlop(malh);
     }
 
 
