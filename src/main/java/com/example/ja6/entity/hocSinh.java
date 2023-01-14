@@ -20,7 +20,6 @@ public class hocSinh {
     String name;
     String email;
     String soDienThoai;
-
     private boolean status;
 
 

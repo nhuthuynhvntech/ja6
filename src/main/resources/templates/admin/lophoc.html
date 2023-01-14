@@ -370,10 +370,8 @@
         }
 
         $scope.edit=function(item){
+            $scope.newdate = JSON.parse("["+item.date+"]");
             $scope.form=angular.copy(item);
-
-
-
         }
 
         $scope.delete=function(item){
@@ -396,20 +394,22 @@
             item.date = $scope.newdate.toString();
             console.log("e",item)
 
-            $http.post("http://localhost:8080/rest/lophoc/one",item).then(resp=>{
+            $http.post("/rest/lophoc/one",item).then(resp=>{
 
                 resp.createDate = new Date(resp.data.createDate)
                 $scope.items.push(resp.data);
                 alert("them thanh cong")
                 console.log(resp.data)
 
+            }).catch(error => {
+                console.log("fail", error)
             });
 
         }
         $scope.newdate = [];
         $scope.addDate = function (){
             var date = document.getElementById("date").value;
-            $scope.newdate.push(date);
+            $scope.newdate.push(`"`+date+`"`);
         }
 
         $scope.deletadate = function (date){

@@ -36,6 +36,7 @@ public class lophocapi {
         return lopHocDAO.timLop(maLop);
     }
 
+
     @PostMapping("one")
     public LopHoc create(@RequestBody LopHoc lopHoc){
         return lopHocService.create(lopHoc);
