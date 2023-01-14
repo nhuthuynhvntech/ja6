@@ -173,13 +173,32 @@ body{
         <label for="age2">Chưa tư vấn</label><br>
         <input type="radio" id="age3" name="age" value="100">
         <label for="age3">Lịch hẹn</label><br><br></div>
-    <input type="text">
+
+    <div ng-if="lophs.length>0">
+        <div class="title">Lơp đã chọn</div>
+        <table>
+            <thead >
+                <tr>
+                    <th>Mã lớp</th>
+                    <th>Tên lớp</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in lophs">
+                    <td>{{item.maLop}}</td>
+                    <td>
+                        {{item.name}}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 </div>
 <hr>
 <div class="btn1"><button class="cr" ng-click="create()">create</button>
-    <button class="up" ng-click="update()">update</button>
-    <button class="de" ng-click="delete(from)">delete</button>
+    <button class="up" ng-click="update(form)">update</button>
+    <button class="de" ng-click="delete(form)">delete</button>
     <button class="re" ng-click="reset()">reset</button>
 </div>
 
@@ -241,9 +260,8 @@ body{
         <th>Tên học viên</th>
         <th>Contact</th>
         <th>Ngày đăng ký</th>
+        <th>Status</th>
         <th style="color: blue; width: 200px">Chỉnh sửa</th>
-
-
 
     </tr>
     <tr ng-repeat="item in items">
@@ -252,10 +270,10 @@ body{
         <td>{{item.name}}</td>
         <td>{{item.createDate|date:'dd-MM-yyyy'}}</td>
         <td>{{item.available?'yes':'no'}}</td>
+        <td>{{item.status}}</td>
         <td style="width: 200px; display: flex">
             <button class="b1" ng-click="edit(item)"><a href=""></a>edit</button>
             <button class="b1"  ng-click="delete(item)">xoa</button>
-
         </td>
     </tr>
 
@@ -291,122 +309,7 @@ body{
 
 </div>
 <div style="height: 100px"></div>
-<script>
-    var app = angular.module("adapp", ["ngRoute"]);
-    app.config(function($routeProvider) {
-        $routeProvider
-            .when("/product", {
-                templateUrl : "_product.html",
-                controller:"product-ctrl"
-            })
-            .when("/au", {
-                templateUrl : "/admin/au/index.html",
-                controller:"auhtority-ctrl"
-            })
-            .when("/unau", {
-                templateUrl : "/admin/au/unau.html",
-                controller:"authority-ctrl"
-            })
-            .otherwise({
-                template:"<h1>web ban hang java6</h1>"
-            })
-    });
 
-    app.controller("product-ctrl",function($scope,$http){
-
-        $scope.items=[];
-        $scope.form={};
-        $scope.cates=[];
-        $scope.initialize=function(){
-            $http.get("http://localhost:8080/rest/hs").then(resp=>{
-                $scope.items=resp.data;
-                $scope.items.forEach(item=>{
-
-                    item.createDate = new Date(item.createDate)
-                    console.log(item)
-                })
-            });
-            $http.get("http://localhost:8080/rest/hs").then(resp=>{
-                $scope.cates=resp.data;
-
-
-            });
-
-
-
-
-
-        }
-        $scope.initialize();
-
-        $scope.reset=function(){
-            $scope.form={
-                createDate:new Date()
-            }
-
-
-        }
-
-        $scope.edit=function(item){
-            $scope.form=angular.copy(item);
-
-
-
-        }
-
-        $scope.delete=function(item){
-            alert("Delete")
-            $http.delete(`http://localhost:8080/rest/hs/${item.id}`).then(resp=>{
-                var index=$scope.items.findIndex(p=>p.id==item.id);
-                $scope.items.splice(index,1);
-                alert("xoa thanh cong")
-                console.log(resp.data)
-            });
-        }
-
-        $scope.create=function(){
-
-            var item = angular.copy($scope.form);
-            $http.post("http://localhost:8080/rest/hs",item).then(resp=>{
-
-                resp.createDate = new Date(resp.data.createDate)
-                $scope.items.push(resp.data);
-                alert("them thanh cong")
-                console.log(resp.data)
-            });
-        }
-
-        $scope.update=function(){
-            alert("updata")
-            var item = angular.copy($scope.form);
-            $http.put(`http://localhost:8080/rest/hs/${item.id}`,item).then(resp=>{
-                var index=$scope.items.findIndex(p=>p.id==item.id);
-                $scope.items[index]=item;
-                $scope.items.push(resp.data);
-                alert("updata thanh cong")
-                console.log(resp.data)
-            });
-        }
-
-        $scope.imagechange=function(files){
-            var data = new FormData();
-            data.append('file',files[0])
-            $http.post(`http://localhost:8080/rest/up/images`,data,{
-                transformRequest: angular.identity,
-                headers:{'Content-Type':undefined}
-            }).then(resp=>{
-                $scope.form.image = resp.data.name;
-
-            }).catch(error=>{
-                alert("up hinh loi")
-                console.log("loi la",error)
-            })
-
-        }
-
-
-    })
-</script>
 <script language="javascript">
     var app = angular.module("adapp", ["ngRoute"]);
     app.config(function($routeProvider) {
@@ -429,10 +332,17 @@ body{
     });
 
     app.controller("product-ctrl",function($scope,$http){
-        alert("Quản lý Học Viên")
+
         $scope.items=[];
         $scope.form={};
         $scope.cates=[];
+        $scope.lophocall = [];
+
+        $http.get("/rest/lophoc").then(resp=>{
+            $scope.lophocall = resp.data;
+            console.log("lo",resp);
+        });
+
         $scope.initialize=function(){
             $http.get("http://localhost:8080/rest/hs").then(resp=>{
                 $scope.items=resp.data;
@@ -465,26 +375,24 @@ body{
 
         $scope.edit=function(item){
             $scope.form=angular.copy(item);
+            $scope.lophs =[];
 
 
+            var url = `http://localhost:8080/rest/hs/lophocsinh/`+item.maHocSinh;
+            $http.post(url).then(resp=>{
+                $scope.lophs = resp.data;
+                for (let i = 0; i < $scope.lophs.length; i++) {
+                    let name = $scope.lophocall.filter(s=> s.malop == $scope.lophs[i].maLop);
 
-        }
-
-        $scope.delete=function(item){
-
-            $http.delete(`http://localhost:8080/rest/hs/${item.id}`).then(resp=>{
-                var index=$scope.items.findIndex(p=>p.id==item.id);
-                $scope.items.splice(index,1);
-                alert("xoa thanh cong")
-                console.log(resp.data)
-
-
+                    $scope.lophs[i].name= name[0].name;
+                }
             });
 
         }
 
+
+
         $scope.create=function(){
-            alert("create")
             var item = angular.copy($scope.form);
             $http.post("http://localhost:8080/rest/hs",item).then(resp=>{
 
@@ -498,17 +406,19 @@ body{
 
         }
 
-        $scope.update=function(){
-            alert("updata")
-            var item = angular.copy($scope.form);
-            $http.put(`http://localhost:8080/rest/hs/${item.id}`,item).then(resp=>{
-                var index=$scope.items.findIndex(p=>p.id==item.id);
-                $scope.items[index]=item;
-                $scope.items.push(resp.data);
-                alert("updata thanh cong")
-                console.log(resp.data)
+        $scope.delete=function(item){
+            console.log("r",item)
+            $http.post(`/rest/hs/delete`,item).then(resp=>{
+                $scope.initialize();
+                $scope.reset();
+            });
 
+        }
 
+        $scope.update=function(item){
+            console.log("re",item)
+            $http.post(`/rest/hs/update`,item).then(resp=>{
+                $scope.initialize();
             });
 
         }

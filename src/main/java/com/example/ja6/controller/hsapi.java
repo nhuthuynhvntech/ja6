@@ -2,7 +2,9 @@ package com.example.ja6.controller;
 
 
 import com.example.ja6.dao.HocSinhDAO;
+import com.example.ja6.dao.lopDao;
 import com.example.ja6.entity.Product;
+import com.example.ja6.entity.chonLop;
 import com.example.ja6.entity.hocSinh;
 
 import com.example.ja6.service.impl.hsse;
@@ -24,6 +26,9 @@ public class hsapi {
     @Autowired
     HocSinhDAO dao;
 
+    @Autowired
+    lopDao lopdao;
+
 
     @GetMapping()
     public List<hocSinh> getAll(){
@@ -36,8 +41,26 @@ public class hsapi {
 
     @PostMapping()
     public hocSinh create(@RequestBody hocSinh hocSinh){
+        hocSinh.setStatus(true);
         return hs.create(hocSinh);
     }
+
+    @PostMapping("lophocsinh/{mahs}")
+    public List<chonLop> lophoc(@PathVariable String mahs){
+        return lopdao.timlop(mahs);
+    }
+
+    @PostMapping("update")
+    public void lophoc(@RequestBody hocSinh sinhsinh){
+        dao.save(sinhsinh);
+    }
+
+    @PostMapping("delete")
+    public void delete(@RequestBody hocSinh sinhsinh){
+        sinhsinh.setStatus(false);
+        dao.save(sinhsinh);
+    }
+
 
 
 }

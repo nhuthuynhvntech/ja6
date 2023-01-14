@@ -30,6 +30,7 @@ public class lophocapi {
     public List<LopHoc> getAll(){
         return lopHocService.findALl();
     }
+
     @GetMapping("{id}")
     public List<LopHoc> timtheoten(@PathVariable("id") String maLop){
         return lopHocDAO.timLop(maLop);

@@ -17,10 +17,7 @@ public class LopHoc {
     String link;
     String chiChu;
     String linkTaiLieu;
-
-
-
-
+    private String name;
 
 
 
